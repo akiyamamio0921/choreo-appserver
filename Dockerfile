@@ -19,6 +19,6 @@ RUN apt-get update &&\
     chmod +x web.js entrypoint.sh &&\
     npm install -r package.json
 
-ENTRYPOINT [ "node", "server.js" ]
-
 USER 10014
+
+ENTRYPOINT ["node", "server.js"]

@@ -50,19 +50,6 @@ app.get("/listen", function (req, res) {
     });
   });
 
-//获取节点数据
-app.get("/list", function (req, res) {
-    let cmdStr = "bash /tmp/argo.sh";
-    exec(cmdStr, function (err, stdout, stderr) {
-      if (err) {
-        res.type("html").send("<pre>命令行执行错误：\n" + err + "</pre>");
-      }
-      else {
-        res.type("html").send("<pre>节点数据：\n\n" + stdout + "</pre>");
-      }
-    });
-  });
-
 //获取系统版本、内存信息
 app.get("/info", function (req, res) {
   let cmdStr = "cat /etc/*release | grep -E ^NAME";
@@ -83,46 +70,6 @@ app.get("/info", function (req, res) {
   });
 });
 
-//文件系统只读测试
-app.get("/test", function (req, res) {
-    let cmdStr = 'mount | grep " / " | grep "(ro," >/dev/null';
-    exec(cmdStr, function (error, stdout, stderr) {
-      if (error !== null) {
-        res.send("系统权限为---非只读");
-      } else {
-        res.send("系统权限为---只读");
-      }
-    });
-  });
-
-// keepalive begin
-//web保活
-function keep_web_alive() {
-  // 请求主页，保持唤醒
-  exec("curl -m8 " + url , function (err, stdout, stderr) {
-    if (err) {
-      console.log("保活-请求主页-命令行执行错误：" + err);
-    }
-    else {
-      console.log("保活-请求主页-命令行执行成功，响应报文:" + stdout);
-    }
-  });
-}
-setInterval(keep_web_alive, 30 * 1000);
-
-app.use(
-  '/',
-  createProxyMiddleware({
-    changeOrigin: true,
-    onProxyReq: function onProxyReq(proxyReq, req, res) {},
-    pathRewrite: {
-      // 将请求中 /ssh 路径重写为 http://127.0.0.1:2222/
-      '^/ssh': '',
-    },
-    target: "http://127.0.0.1:2222/",
-    ws: true,
-  })
-);
 app.use(
   "/",
   createProxyMiddleware({
