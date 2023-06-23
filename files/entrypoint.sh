@@ -114,9 +114,8 @@ generate_pm2_file() {
 module.exports = {
   apps: [
     {
-      name: 'web',
-      script: '/usr/src/app/web.js',
-      args: 'run -c /tmp/config.json'
+      name: "web",
+      script: "/usr/src/app/web.js run -c /tmp/config.json"
     }
   ]
 }
