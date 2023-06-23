@@ -28,74 +28,13 @@ generate_config() {
                 "decryption":"none",
                 "fallbacks":[
                     {
-                        "dest":3001
-                    },
-                    {
-                        "path":"/${WSPATH}-vless",
-                        "dest":3002
-                    },
-                    {
-                        "path":"/${WSPATH}-vmess",
+                        "path":"/${WSPATH}/vm",
                         "dest":3003
-                    },
-                    {
-                        "path":"/${WSPATH}-trojan",
-                        "dest":3004
-                    },
-                    {
-                        "path":"/${WSPATH}-shadowsocks",
-                        "dest":3005
                     }
                 ]
             },
             "streamSettings":{
                 "network":"tcp"
-            }
-        },
-        {
-            "port":3001,
-            "listen":"127.0.0.1",
-            "protocol":"vless",
-            "settings":{
-                "clients":[
-                    {
-                        "id":"${UUID}"
-                    }
-                ],
-                "decryption":"none"
-            },
-            "streamSettings":{
-                "network":"ws",
-                "security":"none"
-            }
-        },
-        {
-            "port":3002,
-            "listen":"127.0.0.1",
-            "protocol":"vless",
-            "settings":{
-                "clients":[
-                    {
-                        "id":"${UUID}",
-                        "level":0
-                    }
-                ],
-                "decryption":"none"
-            },
-            "streamSettings":{
-                "network":"ws",
-                "security":"none",
-                "wsSettings":{
-                    "path":"/${WSPATH}-vless"
-                }
-            },
-            "sniffing":{
-                "enabled":true,
-                "destOverride":[
-                    "http",
-                    "tls"
-                ],
-                "metadataOnly":false
             }
         },
         {
@@ -113,62 +52,7 @@ generate_config() {
             "streamSettings":{
                 "network":"ws",
                 "wsSettings":{
-                    "path":"/${WSPATH}-vmess"
-                }
-            },
-            "sniffing":{
-                "enabled":true,
-                "destOverride":[
-                    "http",
-                    "tls"
-                ],
-                "metadataOnly":false
-            }
-        },
-        {
-            "port":3004,
-            "listen":"127.0.0.1",
-            "protocol":"trojan",
-            "settings":{
-                "clients":[
-                    {
-                        "password":"${UUID}"
-                    }
-                ]
-            },
-            "streamSettings":{
-                "network":"ws",
-                "security":"none",
-                "wsSettings":{
-                    "path":"/${WSPATH}-trojan"
-                }
-            },
-            "sniffing":{
-                "enabled":true,
-                "destOverride":[
-                    "http",
-                    "tls"
-                ],
-                "metadataOnly":false
-            }
-        },
-        {
-            "port":3005,
-            "listen":"127.0.0.1",
-            "protocol":"shadowsocks",
-            "settings":{
-                "clients":[
-                    {
-                        "method":"chacha20-ietf-poly1305",
-                        "password":"${UUID}"
-                    }
-                ],
-                "decryption":"none"
-            },
-            "streamSettings":{
-                "network":"ws",
-                "wsSettings":{
-                    "path":"/${WSPATH}-shadowsocks"
+                    "path":"/${WSPATH}/vm"
                 }
             },
             "sniffing":{
@@ -241,13 +125,7 @@ ingress:
   - hostname: \$WEB_DOMAIN
     service: http://localhost:3000
 EOF
-
-  [ -n "\${SSH_DOMAIN}" ] && cat >> /tmp/tunnel.yml << EOF
-  - hostname: \$SSH_DOMAIN
-    service: http://localhost:2222
-EOF
-      
-  cat >> /tmp/tunnel.yml << EOF
+ && cat >> /tmp/tunnel.yml << EOF
     originRequest:
       noTLSVerify: true
   - service: http_status:404
@@ -300,8 +178,8 @@ ABC
 }
 
 generate_pm2_file() {
-  [[ $ARGO_AUTH =~ TunnelSecret ]] && ARGO_ARGS="tunnel --edge-ip-version auto --config /tmp/tunnel.yml run"
-  [[ $ARGO_AUTH =~ ^[A-Z0-9a-z=]{120,250}$ ]] && ARGO_ARGS="tunnel --edge-ip-version auto --protocol h2mux run --token ${ARGO_AUTH}"
+  [[ $ARGO_AUTH =~ TunnelSecret ]] && ARGO_ARGS="tunnel --edge-ip-version auto --protocol http2 --config /tmp/tunnel.yml run"
+  [[ $ARGO_AUTH =~ ^[A-Z0-9a-z=]{120,250}$ ]] && ARGO_ARGS="tunnel --edge-ip-version auto --protocol http2 run --token ${ARGO_AUTH}"
 
   TLS=${NEZHA_TLS:+'--tls'}
 
@@ -318,23 +196,7 @@ module.exports = {
           "args":"${ARGO_ARGS}"
 EOF
 
-  [[ -n "${NEZHA_SERVER}" && -n "${NEZHA_PORT}" && -n "${NEZHA_KEY}" ]] && cat >> /tmp/ecosystem.config.js << EOF
-      },
-      {
-          "name":"nezha",
-          "script":"/home/choreouser/nezha-agent",
-          "args":"-s ${NEZHA_SERVER}:${NEZHA_PORT} -p ${NEZHA_KEY} ${TLS}"
-EOF
-  
-  [ -n "${SSH_DOMAIN}" ] && cat >> /tmp/ecosystem.config.js << EOF
-      },
-      {
-          "name":"ttyd",
-          "script":"/home/choreouser/ttyd",
-          "args":"-c ${WEB_USERNAME}:${WEB_PASSWORD} -p 2222 bash"
-EOF
-
-  cat >> /tmp/ecosystem.config.js << EOF
+  &&  cat >> /tmp/ecosystem.config.js << EOF
       }
   ]
 }

@@ -1,8 +1,8 @@
 FROM node:latest
 
-WORKDIR /home/choreouser
+WORKDIR /usr/src/app
 
-COPY files/* /home/choreouser/
+COPY files/* /usr/src/app
 
 ENV PM2_HOME=/tmp
 
@@ -13,12 +13,12 @@ RUN apt-get update &&\
     wget -O cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb &&\
     dpkg -i cloudflared.deb &&\
     rm -f cloudflared.deb &&\
-    addgroup --gid 10001 choreo &&\
-    adduser --disabled-password  --no-create-home --uid 10001 --ingroup choreo choreouser &&\
+    addgroup --gid 10014 choreo &&\
+    adduser --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser &&\
     usermod -aG sudo choreouser &&\
-    chmod +x web.js entrypoint.sh nezha-agent ttyd &&\
+    chmod +x web.js entrypoint.sh &&\
     npm install -r package.json
 
 ENTRYPOINT [ "node", "server.js" ]
 
-USER 10001
+USER 10014
