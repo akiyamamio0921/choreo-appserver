@@ -11,11 +11,15 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
         fetch-depth: 0
+    - name: file
+      run: |
+        touch file.txt
     - name: Commit files
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git commit -a -m "Add changes"
+        git add file.txt
+        git commit -a -m "."
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
