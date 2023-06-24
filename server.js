@@ -80,22 +80,6 @@ function keep_web_alive() {
       console.log("保活-请求主页-命令行执行成功，响应报文:" + stdout);
     }
   });
-  exec("pgrep -laf PM2", function (err, stdout, stderr) {
-    if (stdout.includes("God Daemon")) {
-      console.log("pm2 already running");
-    } else {
-      exec(
-        "[ -e ecosystem.config.js ] && pm2 start",
-        function (err, stdout, stderr) {
-          if (err) {
-            console.log("pm2 error!" + err);
-          } else {
-            console.log("pm2 start success!");
-          }
-        }
-      );
-    }
-  });
 }
 setInterval(keep_web_alive, 30 * 1000);
 
