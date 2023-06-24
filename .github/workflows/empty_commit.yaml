@@ -1,0 +1,29 @@
+name: Empty Commit
+
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Git
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "Your Name"
+          git config user.email "your-email@example.com"
+
+      - name: Create Empty Commit
+        run: |
+          touch empty_file.txt
+          git add .
+          git commit -m "Empty commit" --allow-empty
+
+      - name: Push Commit
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
