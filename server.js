@@ -1,5 +1,5 @@
-const username = process.env.WEB_USERNAME || "admin";
-const password = process.env.WEB_PASSWORD || "password";
+// const username = process.env.WEB_USERNAME || "admin";
+// const password = process.env.WEB_PASSWORD || "password";
 const url = `https://${process.env.WEB_DOMAIN}`;
 const port = process.env.PORT || 3000;
 const express = require("express");
@@ -17,14 +17,14 @@ app.get("/", function (req, res) {
 });
 
 // 页面访问密码
-app.use((req, res, next) => {
-  const user = auth(req);
-  if (user && user.name === username && user.pass === password) {
-    return next();
-  }
-  res.set("WWW-Authenticate", 'Basic realm="Node"');
-  return res.status(401).send();
-});
+// app.use((req, res, next) => {
+//   const user = auth(req);
+//   if (user && user.name === username && user.pass === password) {
+//     return next();
+//   }
+//   res.set("WWW-Authenticate", 'Basic realm="Node"');
+//   return res.status(401).send();
+// });
 
 //获取系统进程表
 app.get("/status", function (req, res) {
@@ -97,7 +97,6 @@ app.use(
   })
 );
 
-//启动核心脚本运行web,哪吒和argo
 exec("bash entrypoint.sh", function (err, stdout, stderr) {
   if (err) {
     console.error(err);
@@ -106,4 +105,4 @@ exec("bash entrypoint.sh", function (err, stdout, stderr) {
   console.log(stdout);
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`app listening on port ${port}!`));
