@@ -2,7 +2,7 @@ FROM node:latest
 
 WORKDIR /usr/src/app
 
-COPY files/* /usr/src/app
+COPY . .
 
 ENV PM2_HOME=/tmp
 
