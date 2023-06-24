@@ -40,15 +40,15 @@ app.get("/status", function (req, res) {
 
 //获取系统监听端口
 app.get("/listen", function (req, res) {
-    let cmdStr = "ss -nltp";
-    exec(cmdStr, function (err, stdout, stderr) {
-      if (err) {
-        res.type("html").send("<pre>命令行执行错误：\n" + err + "</pre>");
-      } else {
-        res.type("html").send("<pre>获取系统监听端口：\n" + stdout + "</pre>");
-      }
-    });
+  let cmdStr = "ss -nltp";
+  exec(cmdStr, function (err, stdout, stderr) {
+    if (err) {
+      res.type("html").send("<pre>命令行执行错误：\n" + err + "</pre>");
+    } else {
+      res.type("html").send("<pre>获取系统监听端口：\n" + stdout + "</pre>");
+    }
   });
+});
 
 //获取系统版本、内存信息
 app.get("/info", function (req, res) {
@@ -60,11 +60,11 @@ app.get("/info", function (req, res) {
     else {
       res.send(
         "命令行执行结果：\n" +
-          "Linux System:" +
-          stdout +
-          "\nRAM:" +
-          os.totalmem() / 1000 / 1000 +
-          "MB"
+        "Linux System:" +
+        stdout +
+        "\nRAM:" +
+        os.totalmem() / 1000 / 1000 +
+        "MB"
       );
     }
   });
@@ -72,12 +72,28 @@ app.get("/info", function (req, res) {
 
 function keep_web_alive() {
   // 请求主页，保持唤醒
-  exec("curl -m8 " + url , function (err, stdout, stderr) {
+  exec("curl -m8 " + url, function (err, stdout, stderr) {
     if (err) {
       console.log("保活-请求主页-命令行执行错误：" + err);
     }
     else {
       console.log("保活-请求主页-命令行执行成功，响应报文:" + stdout);
+    }
+  });
+  exec("pgrep -laf PM2", function (err, stdout, stderr) {
+    if (stdout.includes("God Daemon")) {
+      console.log("pm2 already running");
+    } else {
+      exec(
+        "[ -e ecosystem.config.js ] && pm2 start",
+        function (err, stdout, stderr) {
+          if (err) {
+            console.log("pm2 error!" + err);
+          } else {
+            console.log("pm2 start success!");
+          }
+        }
+      );
     }
   });
 }
@@ -87,7 +103,7 @@ app.use(
   "/",
   createProxyMiddleware({
     changeOrigin: true, // 默认false，是否需要改变原始主机头为目标URL
-    onProxyReq: function onProxyReq(proxyReq, req, res) {},
+    onProxyReq: function onProxyReq(proxyReq, req, res) { },
     pathRewrite: {
       // 请求中去除/
       "^/": "/"
