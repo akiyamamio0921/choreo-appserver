@@ -1,7 +1,8 @@
 name: Empty Commit
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: "0 */4 * * *"
 
 jobs:
   commit:
@@ -11,14 +12,14 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
         fetch-depth: 0
-    - name: file
-      run: |
-        touch file.txt
     - name: Commit files
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add file.txt
+        rm -rf README.md
+        touch README.md
+        echo "choreo">README.md
+        git add .
         git commit -a -m "."
     - name: Push changes
       uses: ad-m/github-push-action@master
