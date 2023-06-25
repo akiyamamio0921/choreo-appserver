@@ -17,7 +17,6 @@ generate_config() {
     "inbounds":[
         {
             "port":60003,
-            "listen":"::",
             "protocol":"vmess",
             "settings":{
                 "clients":[
