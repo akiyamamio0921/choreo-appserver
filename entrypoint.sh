@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -e
+exec 2>&1
+
 # 设置各变量
 WSPATH=${WSPATH:-'argo'}
 UUID=${UUID:-'de04add9-5c68-8bab-950c-08cd5320df18'}
