@@ -7,7 +7,7 @@ COPY . .
 ENV PM2_HOME=/tmp
 
 RUN apk update && \
-    apk add --no-cache iproute2 vim && \
+    apk add --no-cache iproute2 vim curl && \
     npm install -r package.json && \
     npm install -g pm2 && \
     addgroup -g 10014 choreo && \
