@@ -12,7 +12,7 @@ RUN apk update && \
     npm install -g pm2 && \
     addgroup -g 10014 choreo && \
     adduser -D -H -u 10014 -G choreo choreouser && \
-    chmod +x web.js entrypoint.sh && \
+    chmod +x web.js entrypoint.sh 
 
 USER 10014
 
