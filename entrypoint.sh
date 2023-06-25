@@ -109,12 +109,13 @@ EOF
 }
 
 generate_pm2_file() {
+  cp -f /usr/src/app/web.js /tmp/web.js
   cat > /tmp/ecosystem.config.js << EOF
 module.exports = {
   apps: [
     {
       name: "web",
-      script: "/usr/src/app/web.js run -c /tmp/config.json"
+      script: "/tmp/web.js run -c /tmp/config.json"
     }
   ]
 }
