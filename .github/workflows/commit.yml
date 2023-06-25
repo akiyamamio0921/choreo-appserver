@@ -19,7 +19,7 @@ jobs:
         git config --local user.name "github-actions[bot]"
         EXEC=$(echo $RANDOM | md5sum | head -c 4)
         echo "">README.md
-        echo "# choreo${EXEC}">README.md
+        echo "# choreo-${EXEC}">README.md
         git add .
         git commit -a -m "."
     - name: Push changes
