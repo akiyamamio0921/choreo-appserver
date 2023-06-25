@@ -16,7 +16,29 @@ generate_config() {
     },
     "inbounds":[
         {
-            "port":60003,
+            "port":60103,
+            "protocol":"vless",
+            "settings":{
+                "clients":[
+                    {
+                        "id":"${UUID}",
+                        "flow":"xtls-rprx-vision"
+                    }
+                ],
+                "decryption":"none",
+                "fallbacks":[
+                    {
+                        "path":"/${WSPATH}/vm",
+                        "dest":3003
+                    }
+                ]
+            },
+            "streamSettings":{
+                "network":"tcp"
+            }
+        },
+        {
+            "port":3003,
             "protocol":"vmess",
             "settings":{
                 "clients":[
