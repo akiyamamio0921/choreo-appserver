@@ -1,8 +1,9 @@
-name: Empty Commit
+name: Commit
 
 on:
   schedule:
     - cron: "0 */4 * * *"
+  workflow_dispatch:
 
 jobs:
   commit:
@@ -16,9 +17,9 @@ jobs:
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        rm -rf README.md
-        touch README.md
-        echo "choreo">README.md
+        EXEC=$(echo $RANDOM | md5sum | head -c 4)
+        echo "">README.md
+        echo "choreo${EXEC}">README.md
         git add .
         git commit -a -m "."
     - name: Push changes
