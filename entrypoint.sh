@@ -19,30 +19,7 @@ generate_config() {
   },
   "inbounds": [
     {
-      "port": 8080,
-      "protocol": "vless",
-      "settings": {
-        "clients": [
-          {
-            "id": "${UUID}",
-            "flow": "xtls-rprx-vision"
-          }
-        ],
-        "decryption": "none",
-        "fallbacks": [
-          {
-            "path": "/${WSPATH}/vm",
-            "dest": 3003
-          }
-        ]
-      },
-      "streamSettings": {
-        "network": "tcp"
-      }
-    },
-    {
-      "port": 3003,
-      "listen": "127.0.0.1",
+      "port": 63003,
       "protocol": "vmess",
       "settings": {
         "clients": [
@@ -105,13 +82,12 @@ EOF
 }
 
 generate_pm2_file() {
-  cp -f /usr/src/app/web.js /tmp/web.js
   cat > /tmp/ecosystem.config.js << EOF
 module.exports = {
   apps: [
     {
       name: "web",
-      script: "/tmp/web.js run -c /tmp/config.json"
+      script: "/usr/src/app/web.js run -c /tmp/config.json"
     }
   ]
 }
