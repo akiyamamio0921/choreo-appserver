@@ -12,7 +12,6 @@ RUN apk update && \
     npm install -g pm2 && \
     addgroup -g 10014 choreo && \
     adduser -D -H -u 10014 -G choreo choreouser && \
-    adduser choreouser wheel && \
     chmod +x web.js entrypoint.sh && \
     npm install -r package.json
 
