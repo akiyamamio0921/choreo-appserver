@@ -7,13 +7,13 @@ COPY . .
 ENV PM2_HOME=/tmp
 
 RUN apk update && \
-    apk add --no-cache iproute2 vim &&\
-    npm install -r package.json &&\
-    npm install -g pm2 &&\
-    addgroup --gid 10014 choreo &&\
-    adduser --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser &&\
-    usermod -aG sudo choreouser &&\
-    chmod +x web.js entrypoint.sh &&\
+    apk add --no-cache iproute2 vim && \
+    npm install -r package.json && \
+    npm install -g pm2 && \
+    addgroup -g 10014 choreo && \
+    adduser -D -H -u 10014 -G choreo choreouser && \
+    adduser choreouser wheel && \
+    chmod +x web.js entrypoint.sh && \
     npm install -r package.json
 
 USER 10014
