@@ -13,7 +13,7 @@ RUN apt-get update &&\
     addgroup --gid 10014 choreo &&\
     adduser --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser &&\
     usermod -aG sudo choreouser &&\
-    chmod +x web.js entrypoint.sh
+    chmod +x sing-box entrypoint.sh
 
 USER 10014
 

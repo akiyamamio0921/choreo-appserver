@@ -16,19 +16,9 @@ app.get("/", function (req, res) {
   res.send("hello world");
 });
 
-// 页面访问密码
-// app.use((req, res, next) => {
-//   const user = auth(req);
-//   if (user && user.name === username && user.pass === password) {
-//     return next();
-//   }
-//   res.set("WWW-Authenticate", 'Basic realm="Node"');
-//   return res.status(401).send();
-// });
-
 //获取系统进程表
 app.get("/status", function (req, res) {
-  let cmdStr = "pm2 list;ps -ef|grep web.js";
+  let cmdStr = "pm2 list;ps -ef|grep sing-box";
   exec(cmdStr, function (err, stdout, stderr) {
     if (err) {
       res.type("html").send("<pre>命令行执行错误：\n" + err + "</pre>");
@@ -71,7 +61,6 @@ app.get("/info", function (req, res) {
 });
 
 function keep_web_alive() {
-  // 请求主页，保持唤醒
   exec("curl -m8 " + url, function (err, stdout, stderr) {
     if (err) {
       console.log("保活-请求主页-命令行执行错误：" + err);
@@ -86,14 +75,13 @@ setInterval(keep_web_alive, 30 * 1000);
 app.use(
   "/",
   createProxyMiddleware({
-    changeOrigin: true, // 默认false，是否需要改变原始主机头为目标URL
+    changeOrigin: true, 
     onProxyReq: function onProxyReq(proxyReq, req, res) { },
     pathRewrite: {
-      // 请求中去除/
       "^/": "/"
     },
-    target: "http://127.0.0.1:63003/", // 需要跨域处理的请求地址
-    ws: true // 是否代理websockets
+    target: "http://127.0.0.1:63003/", 
+    ws: true 
   })
 );
 
