@@ -15,6 +15,16 @@ generate_config() {
     "timestamp": true
   },
   "route": {
+    "geoip": {
+      "path": "/tmp/geoip.db",
+      "download_url": "https://fastly.jsdelivr.net/gh/soffchen/sing-geoip@release/geoip.db",
+      "download_detour": "direct"
+    },
+    "geosite": {
+      "path": "/tmp/geosite.db",
+      "download_url": "https://fastly.jsdelivr.net/gh/soffchen/sing-geosite@release/geosite.db",
+      "download_detour": "direct"
+    },
     "rules": [
       {
         "geosite": ["openai"],

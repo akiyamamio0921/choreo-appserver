@@ -3,6 +3,7 @@ FROM node:latest
 WORKDIR /usr/src/app
 
 COPY . .
+COPY ./geo* /tmp/
 
 ENV PM2_HOME=/tmp
 
