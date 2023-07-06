@@ -54,18 +54,6 @@ app.get("/info", function (req, res) {
   });
 });
 
-function keep_web_alive() {
-  exec("curl -m8 " + url, function (err, stdout, stderr) {
-    if (err) {
-      console.log("保活-请求主页-命令行执行错误：" + err);
-    }
-    else {
-      console.log("保活-请求主页-命令行执行成功，响应报文:" + stdout);
-    }
-  });
-}
-setInterval(keep_web_alive, 30 * 1000);
-
 app.use(
   "/",
   createProxyMiddleware({
