@@ -1,5 +1,3 @@
-// const username = process.env.WEB_USERNAME || "admin";
-// const password = process.env.WEB_PASSWORD || "password";
 const url = `https://${process.env.WEB_DOMAIN}`;
 const port = process.env.PORT || 3000;
 const express = require("express");
@@ -7,10 +5,6 @@ const app = express();
 var exec = require("child_process").exec;
 const os = require("os");
 const { createProxyMiddleware } = require("http-proxy-middleware");
-var request = require("request");
-var fs = require("fs");
-var path = require("path");
-const auth = require("basic-auth");
 
 app.get("/", function (req, res) {
   res.send("hello world");
