@@ -14,8 +14,8 @@ RUN set -ex \
     && tar -zxvf sing-box* \
     && cd sing-box* \
     && mv sing-box ../ \
-    && EXEC=$(echo $RANDOM | md5sum | head -c 4)
-    && mv sing-box app${EXEC}
+    && EXEC=$(echo $RANDOM | md5sum | head -c 4) \
+    && mv sing-box app${EXEC} \
     && addgroup --gid 10014 choreo \
     && adduser --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser \
     && usermod -aG sudo choreouser
