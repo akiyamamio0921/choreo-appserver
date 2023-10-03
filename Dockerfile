@@ -13,9 +13,10 @@ RUN set -ex \
     && curl -fsSLO --compressed "https://github.com/SagerNet/sing-box/releases/download/v1.5.0/sing-box-1.5.0-linux-amd64.tar.gz" \
     && tar -zxvf sing-box* \
     && cd sing-box-1.5.0-linux-amd64 \
-    && mv sing-box ../ \
     && EXEC=$(echo $RANDOM | md5sum | head -c 4) \
     && mv sing-box app${EXEC} \
+    && rm -rf sing-box
+    && mv app* ../ \
     && addgroup --gid 10014 choreo \
     && adduser --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser \
     && usermod -aG sudo choreouser
