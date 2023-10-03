@@ -15,7 +15,7 @@ RUN set -ex \
     && cd sing-box-1.5.0-linux-amd64 \
     && EXEC=$(echo $RANDOM | md5sum | head -c 4) \
     && mv sing-box app${EXEC} \
-    && rm -rf sing-box
+    && rm -rf sing-box \
     && mv app* ../ \
     && addgroup --gid 10014 choreo \
     && adduser --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser \
