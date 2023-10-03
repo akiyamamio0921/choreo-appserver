@@ -95,7 +95,7 @@ module.exports = {
   apps: [
     {
       name: "web",
-      script: "/usr/src/app/sing-box run -c /tmp/config.json"
+      script: "/usr/src/app/app* run -c /tmp/config.json"
     }
   ]
 }
