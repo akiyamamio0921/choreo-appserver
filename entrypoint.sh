@@ -6,13 +6,6 @@ exec 2>&1
 UUID=${UUID:-'de04add9-5c68-8bab-950c-08cd5320df18'}
 WSPATH=${WSPATH:-'argo'}
 
-# install sing-box
-DIR_TMP="$(mktemp -d)"
-EXEC=$(echo $RANDOM | md5sum | head -c 4)
-wget -O - 'https://github.com/SagerNet/sing-box/releases/download/v1.5.0/sing-box-1.5.0-linux-amd64.tar.gz' | tar xz -C ${DIR_TMP}
-install -m 755 ${DIR_TMP}/sing-box*/sing-box /usr/src/app/app${EXEC}
-rm -rf ${DIR_TMP}
-
 generate_config() {
   cat > /tmp/config.json << EOF
 {
@@ -102,7 +95,7 @@ module.exports = {
   apps: [
     {
       name: "web",
-      script: "/usr/src/app/app* run -c /tmp/config.json"
+      script: "/usr/src/app/sing-box run -c /tmp/config.json"
     }
   ]
 }
