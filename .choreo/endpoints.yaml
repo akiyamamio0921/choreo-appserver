@@ -1,6 +1,0 @@
-version: 0.1
-endpoints:
-- name: Service
-  port: 63003
-  type: TCP
-  networkVisibility: Public
