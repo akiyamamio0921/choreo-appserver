@@ -242,11 +242,6 @@ ingress:
     service: http://localhost:8080
 EOF
 
-  [ -n "\${SSH_DOMAIN}" ] && cat >> /tmp/tunnel.yml << EOF
-  - hostname: \$SSH_DOMAIN
-    service: http://localhost:2222
-EOF
-
   cat >> /tmp/tunnel.yml << EOF
   - service: http_status:404
 EOF

@@ -99,19 +99,6 @@ function keep_web_alive() {
 setInterval(keep_web_alive, 30 * 1000);
 
 app.use(
-  '/',
-  createProxyMiddleware({
-    changeOrigin: true,
-    onProxyReq: function onProxyReq(proxyReq, req, res) {},
-    pathRewrite: {
-      // 将请求中 /ssh 路径重写为 http://127.0.0.1:2222/
-      '^/ssh': '',
-    },
-    target: "http://127.0.0.1:2222/",
-    ws: true,
-  })
-);
-app.use(
   "/",
   createProxyMiddleware({
     changeOrigin: true, // 默认false，是否需要改变原始主机头为目标URL
