@@ -1,1 +1,1 @@
-# choreo-ce20
+# choreo-deb6
