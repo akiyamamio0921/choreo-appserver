@@ -1,1 +1,1 @@
-# choreo-50b5
+# choreo-300b
